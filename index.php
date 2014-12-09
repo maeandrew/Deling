@@ -4,18 +4,22 @@
      if($dom->load("xmlfile.xml")) echo 'loading complete.';
          
     $produktkatalog = $dom->documentElement;
-        
-    $searchNodes = $produktkatalog->getElementsByTagName('Produsent');
     
+    $idForDelete = 'Kingston8';
+        
+    $ProduktGruppe = $produktkatalog->getElementsByTagName('ProduktGruppe')->item(0);
+    
+    //get all products
+    $searchNodes = $produktkatalog->getElementsByTagName('Produkt');    
     foreach( $searchNodes as $searchNode )
     {
-        $valueID = $searchNode->getAttribute('id');
-        var_dump($valueID);
+        $valueID = $searchNode->getAttribute('produsentId');    
+        
+        if($valueID == $idForDelete){
+            $oldchapter = $ProduktGruppe->removeChild($searchNode);
+        }
     }
 
-    $produkter = $produktkatalog->getElementsByTagName('Produkter')->item(0);
-    $oldchapter = $produktkatalog->removeChild($produkter);
-
+    
     echo $dom->saveXML();
 ?>
-
